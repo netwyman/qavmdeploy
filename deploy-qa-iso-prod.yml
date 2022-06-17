@@ -1,0 +1,12 @@
+---
+- hosts: "{{type}}"
+  gather_facts: false
+  connection: local
+  #vars_files:
+  #  - answerfile.yml
+  roles:
+     - vm-deploy-os-template
+  tasks:
+     - name: Type of serverOS information
+       debug: 
+         msg: "Server {{type}},Virtual machine is successfully installed!"

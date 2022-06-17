@@ -1,0 +1,45 @@
+# This playbook is created for creating user and providing sudo right to them
+# this will work for both Centos and ubuntu
+# validate::
+# We can use visudo to validate the file before the copy is complete. This is the safest behavior even if we are certain the content is correct. 
+# An incorrect entry into the sudoers environment can prevent sudo from working for any account.
+
+---
+- hosts: CentOS
+  become: yes
+ 
+  tasks:
+   - name: Creating user and providing sudo rights 
+     block:
+       - name: Validate that ‘wheel’ group exists
+         group:
+          name: wheel
+          state: present
+       - name: creating user
+         user:                       
+          name: "{{ item.name }}"                 
+          state: present            
+          password: "{{ item.password }}"
+          shell: /bin/bash
+          createhome: yes
+          groups: "{{ item.groups }}"                                                                                                     
+          append: true
+         loop:
+          - { name: 'NocUser', groups: 'wheel', password: 'Mind@2020#!' }
+          - { name: 'AdminUser', groups: 'wheel', password: 'Mind@2020#!' }
+
+       - name: Allow passwordless sudo in wheel group
+         lineinfile:
+          path: /etc/sudoers
+          state: "present"
+          regexp: "^wheel"
+          line: "%wheel ALL=(ALL) NOPASSWD: ALL"
+          validate: "visudo -cf %s" 
+     when: ansible_facts['distribution'] == 'CentOS' 
+     
+     rescue:
+      - debug:
+         msg: "Please run playbook on appropriate distribution, your distribution is {{ ansible_facts['distribution'] }}"
+     always:
+      - debug:
+         msg: "Play book execution completed"  

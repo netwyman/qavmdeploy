@@ -1,0 +1,12 @@
+---
+- hosts: "{{type}}"
+  gather_facts: false
+  connection: local
+  #vars_files:
+  #  - answerfile.yml
+  roles:
+     - vm-remove-name
+  tasks: 
+     - name: Type of server information
+       debug: 
+         msg: "Server {{type}},Virtual machine is successfully removed!"

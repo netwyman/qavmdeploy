@@ -1,0 +1,13 @@
+---
+- #hosts: vCenter
+  hosts: "{{type}}"
+  gather_facts: false
+  connection: local
+  #vars_files:
+  #  - answerfile.yml
+  roles:
+     - vm-deploy-template
+  tasks:
+     - name: Type of server information
+       debug: 
+         msg: "Server {{type}},Virtual machine is successfully installed!"

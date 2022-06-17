@@ -1,0 +1,36 @@
+---
+# Deploy a VM from a template using Ansible 'vmware_guest' module
+- name: Deploy VM from template
+  vmware_guest:
+    hostname: '{{ deploy_vCenter_host }}'
+    username: '{{ deploy_vCenter_user }}'
+    password: '{{ deploy_vCenter_password }}'
+    validate_certs: no
+    datacenter: '{{ deploy_vCenter_datacenter }}'
+    esxi_hostname: "{{ deploy_vCenter_esxhost }}"
+    #cluster: '{{ deploy_vsphere_cluster }}'
+    #resource_pool: '{{ deploy_vsphere_resourcepool }}'
+    folder: '{{ deploy_vCenter_folder }}'
+    name: '{{ inventory_hostname }}'
+    template: "{{ deploy_vCenter_vmtemplate }}"
+    #state: poweredon
+    annotation: "{{ guest_notes }}"
+    disk:
+    - size_gb: "{{ guest_disk_size | default(80) }}"
+      type: thin
+      datastore: '{{ deploy_vCenter_datastore }}'
+    networks:
+    - name: VM Network
+      device_type: vmxnet3
+      start_connected: True
+    hardware:
+      memory_mb: "{{ vm_memory | default(8192) }}"
+      num_cpus: "{{ vm_cpu | default(8) }}"
+    wait_for_ip_address: True
+    state: present
+  register: newvm 
+ 
+- name: IP address info
+  debug:
+    msg: "ip is : {{ newvm.instance.ipv4 }} "
+

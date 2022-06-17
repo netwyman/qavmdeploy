@@ -1,0 +1,16 @@
+---
+- name: Remove "{{ inventory_hostname }}"
+  vmware_guest:
+        #vm_name: "{{ inventory_hostname }}"
+        datacenter: "{{ deploy_vCenter_datacenter }}"
+        hostname: "{{ deploy_vCenter_host }}"
+        username: "{{ deploy_vCenter_user }}"
+        password: "{{ deploy_vCenter_password }}"
+        validate_certs: no
+        #cluster: "DC1_C1"
+        name: "{{ inventory_hostname }}"
+        state: absent
+        force: yes
+  delegate_to: localhost
+  register: facts
+

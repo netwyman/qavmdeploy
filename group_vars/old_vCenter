@@ -1,0 +1,25 @@
+# Infrastructure
+# - Defines the vCenter / vSphere environment
+deploy_vCenter_host: '172.16.10.160'
+deploy_vCenter_user: 'qa-team@vsphere.local'
+deploy_vCenter_password: 'Mind@123'
+deploy_vCenter_esxhost: '172.16.10.18'
+deploy_vCenter_datastore: 'datastore18_2'
+deploy_vCenter_datacenter: 'Datacenter'
+deploy_vCenter_folder: '/'
+#deploy_vsphere_cluster: 'CL'
+#deploy_vsphere_resourcepool: '172.16.10.18'
+
+# Guest
+# - Describes virtual machine common options
+#guest_network: 'PG-10.67.31.0'
+#guest_netmask: '255.255.255.0'
+#guest_gateway: '10.67.31.254'
+#guest_dns_server: '10.67.10.5'
+#guest_domain_name: 'sddc.lab'
+#guest_id: 'ubuntu64Guest'
+guest_disk_size: '80'
+guest_memory: '8192'
+guest_vcpu: '8'
+#guest_template: 'packer-ubuntu-18.04'
+dumpfacts: False
